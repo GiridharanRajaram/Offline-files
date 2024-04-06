@@ -14,10 +14,12 @@ class FolderCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var folderNameLbl: UILabel!
     
+    @IBOutlet weak var tagColorView: UIView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-
-        
+        tagColorView.layer.cornerRadius = 5
+        tagColorView.clipsToBounds = true
     }
 
 }

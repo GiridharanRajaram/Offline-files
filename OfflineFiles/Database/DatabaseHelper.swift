@@ -39,8 +39,7 @@ class DatabaseHelper {
         let folder = NSManagedObject(entity: entity, insertInto: managedContext)
         
         folder.setValue(name, forKey: "name")
-        
-        
+
         do {
             try managedContext.save()
             print("Folder saved successfully.")
@@ -52,8 +51,52 @@ class DatabaseHelper {
         
     }
     
+    func deleteFolder(name: String) {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Folders")
+        fetchRequest.predicate = NSPredicate(format: "name == %@", name)
+        
+        do {
+            let results = try managedContext.fetch(fetchRequest)
+            if let folderToDelete = results.first as? NSManagedObject {
+                managedContext.delete(folderToDelete)
+                try managedContext.save()
+                print("Folder '\(name)' deleted successfully.")
+            } else {
+                print("Folder '\(name)' not found.")
+            }
+        } catch let error {
+            print("Failed to delete folder: \(error.localizedDescription)")
+        }
+    }
     
-    func fecthFolders() -> [NSManagedObject]? {
+    
+    func saveColorForFolder(at index: Int, color: UIColor) {
+        guard let folders = DatabaseHelper.instance.fetchFolders(), index < folders.count else { return }
+        
+        let folder = folders[index]
+        
+        guard let managedContext = folder.managedObjectContext else {
+            fatalError("Managed Context not found for folder")
+        }
+        
+        guard NSEntityDescription.entity(forEntityName: "Folders", in: managedContext) != nil else {
+            fatalError("Unable to find entity description for 'Folders'")
+        }
+        
+
+        let colorData = try? NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: false)
+        folder.setValue(colorData, forKey: "color")
+     
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+ 
+    
+    func fetchFolders() -> [NSManagedObject]? {
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Folders")
         
@@ -69,6 +112,32 @@ class DatabaseHelper {
         
     }
     
+    
+    func fetchFoldersSortedByDate() -> [NSManagedObject]? {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Folders")
+        
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        do {
+            let folders = try managedContext.fetch(fetchRequest)
+            return folders
+        } catch {
+            print("Error fetching folders: \(error.localizedDescription)")
+            return nil
+        }
+    }
+    
+    
+    func saveContext() {
+         do {
+             try managedContext.save()
+             print("Changes saved successfully.")
+         } catch {
+             print("Error saving context: \(error.localizedDescription)")
+         }
+     }
+    
     func deleteAllData(forEntity entityName: String) {
            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
@@ -80,48 +149,19 @@ class DatabaseHelper {
                print("Error deleting all data for entity: \(entityName) - \(error.localizedDescription)")
            }
        }
-    
-    
-    
-    func saveImage(_ image: UIImage, fileName: String, toFolder folder: NSManagedObject) {
-        guard let imageData = image.pngData() else {
-            print("Failed to convert image to data.")
-            return
-        }
-        
-        guard let entity = NSEntityDescription.entity(forEntityName: "Images", in: managedContext) else {
-            fatalError("Unable to find entity description for 'ImageEntity'")
-        }
-        
-        let imageObject = NSManagedObject(entity: entity, insertInto: managedContext)
-        imageObject.setValue(imageData, forKey: "image")
-        imageObject.setValue(fileName, forKey: "fileName") 
-        imageObject.setValue(folder, forKey: "folder")
-        
-        do {
-            try managedContext.save()
-            print("Image saved successfully.")
-        } catch let error {
-            print("Error saving image: \(error.localizedDescription)")
-        }
-    }
 
-
-    func saveFile(atURL url: URL, toFolder folder: NSManagedObject) {
-        guard let fileData = try? Data(contentsOf: url) else {
-            print("Failed to read file data.")
-            return
-        }
+    func saveFile(atURL url: URL, withData data : Data, toFolder folder: NSManagedObject) {
+        
         
         guard let entity = NSEntityDescription.entity(forEntityName: "Files", in: managedContext) else {
             fatalError("Unable to find entity description for 'FileEntity'")
         }
         
         let fileObject = NSManagedObject(entity: entity, insertInto: managedContext)
-        fileObject.setValue(fileData, forKey: "files")
+        fileObject.setValue(data, forKey: "fileData")
+        fileObject.setValue(url, forKey: "fileURL")
         fileObject.setValue(url.lastPathComponent, forKey: "fileName")
         fileObject.setValue(folder, forKey: "folder")
-        
         do {
             try managedContext.save()
             print("File saved successfully.")
@@ -129,20 +169,7 @@ class DatabaseHelper {
             print("Error saving file: \(error.localizedDescription)")
         }
     }
-    
-    func fetchImages(forFolder folder: NSManagedObject) -> [NSManagedObject]? {
-           let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Images")
-           fetchRequest.predicate = NSPredicate(format: "folder == %@", folder)
            
-           do {
-               let images = try managedContext.fetch(fetchRequest) as? [NSManagedObject]
-               return images
-           } catch {
-               print("Error fetching images: \(error.localizedDescription)")
-               return nil
-           }
-       }
-       
        func fetchFiles(forFolder folder: NSManagedObject) -> [NSManagedObject]? {
            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Files")
            fetchRequest.predicate = NSPredicate(format: "folder == %@", folder)

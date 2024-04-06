@@ -23,6 +23,11 @@
 		502C164A2BB85FF500E77D18 /* DatabaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C16492BB85FF500E77D18 /* DatabaseHelper.swift */; };
 		5043862F2BB970F2001EF3B6 /* FilesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5043862D2BB970F2001EF3B6 /* FilesCollectionViewCell.swift */; };
 		504386302BB970F2001EF3B6 /* FilesCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5043862E2BB970F2001EF3B6 /* FilesCollectionViewCell.xib */; };
+		50BD82962BBEC35800C470CA /* TagTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD82942BBEC35800C470CA /* TagTableViewCell.swift */; };
+		50BD82972BBEC35800C470CA /* TagTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50BD82952BBEC35800C470CA /* TagTableViewCell.xib */; };
+		50BD829B2BBEC6D500C470CA /* ColorOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD829A2BBEC6D500C470CA /* ColorOptionsViewController.swift */; };
+		50E1324C2BC1CA2300CA2F78 /* ViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1324B2BC1CA2300CA2F78 /* ViewControllerExtensions.swift */; };
+		50E1324E2BC1CE3200CA2F78 /* FilesViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1324D2BC1CE3200CA2F78 /* FilesViewControllerExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +68,11 @@
 		502C16492BB85FF500E77D18 /* DatabaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseHelper.swift; sourceTree = "<group>"; };
 		5043862D2BB970F2001EF3B6 /* FilesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesCollectionViewCell.swift; sourceTree = "<group>"; };
 		5043862E2BB970F2001EF3B6 /* FilesCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilesCollectionViewCell.xib; sourceTree = "<group>"; };
+		50BD82942BBEC35800C470CA /* TagTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagTableViewCell.swift; sourceTree = "<group>"; };
+		50BD82952BBEC35800C470CA /* TagTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagTableViewCell.xib; sourceTree = "<group>"; };
+		50BD829A2BBEC6D500C470CA /* ColorOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorOptionsViewController.swift; sourceTree = "<group>"; };
+		50E1324B2BC1CA2300CA2F78 /* ViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtensions.swift; sourceTree = "<group>"; };
+		50E1324D2BC1CE3200CA2F78 /* FilesViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesViewControllerExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +123,7 @@
 		502C16152BB85F7700E77D18 /* OfflineFiles */ = {
 			isa = PBXGroup;
 			children = (
+				50E132482BC1C86B00CA2F78 /* ViewControllerExtensions */,
 				50C0246D2BBA799C004A73D2 /* Database */,
 				50C0246C2BBA7982004A73D2 /* Cells */,
 				50C0246B2BBA795B004A73D2 /* ViewControllers */,
@@ -149,6 +160,7 @@
 			children = (
 				502C161A2BB85F7700E77D18 /* ViewController.swift */,
 				500230FC2BB8937100501CF2 /* FilesViewController.swift */,
+				50BD829A2BBEC6D500C470CA /* ColorOptionsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -160,6 +172,8 @@
 				500230F92BB8863500501CF2 /* FolderCollectionViewCell.xib */,
 				5043862D2BB970F2001EF3B6 /* FilesCollectionViewCell.swift */,
 				5043862E2BB970F2001EF3B6 /* FilesCollectionViewCell.xib */,
+				50BD82942BBEC35800C470CA /* TagTableViewCell.swift */,
+				50BD82952BBEC35800C470CA /* TagTableViewCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -170,6 +184,15 @@
 				502C16492BB85FF500E77D18 /* DatabaseHelper.swift */,
 			);
 			path = Database;
+			sourceTree = "<group>";
+		};
+		50E132482BC1C86B00CA2F78 /* ViewControllerExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				50E1324B2BC1CA2300CA2F78 /* ViewControllerExtensions.swift */,
+				50E1324D2BC1CE3200CA2F78 /* FilesViewControllerExtensions.swift */,
+			);
+			path = ViewControllerExtensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,6 +299,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50BD82972BBEC35800C470CA /* TagTableViewCell.xib in Resources */,
 				500230FB2BB8863500501CF2 /* FolderCollectionViewCell.xib in Resources */,
 				504386302BB970F2001EF3B6 /* FilesCollectionViewCell.xib in Resources */,
 				502C16262BB85F7900E77D18 /* LaunchScreen.storyboard in Resources */,
@@ -305,11 +329,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50E1324C2BC1CA2300CA2F78 /* ViewControllerExtensions.swift in Sources */,
 				502C161B2BB85F7700E77D18 /* ViewController.swift in Sources */,
 				502C164A2BB85FF500E77D18 /* DatabaseHelper.swift in Sources */,
 				5043862F2BB970F2001EF3B6 /* FilesCollectionViewCell.swift in Sources */,
 				500230FD2BB8937100501CF2 /* FilesViewController.swift in Sources */,
 				502C16172BB85F7700E77D18 /* AppDelegate.swift in Sources */,
+				50BD82962BBEC35800C470CA /* TagTableViewCell.swift in Sources */,
+				50BD829B2BBEC6D500C470CA /* ColorOptionsViewController.swift in Sources */,
+				50E1324E2BC1CE3200CA2F78 /* FilesViewControllerExtensions.swift in Sources */,
 				502C16192BB85F7700E77D18 /* SceneDelegate.swift in Sources */,
 				500230FA2BB8863500501CF2 /* FolderCollectionViewCell.swift in Sources */,
 				502C16212BB85F7700E77D18 /* OfflineFiles.xcdatamodeld in Sources */,

@@ -4,38 +4,50 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionViewCell" id="gTV-IL-0wX" customClass="FolderCollectionViewCell" customModule="OfflineFiles" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="99" height="74"/>
+            <rect key="frame" x="0.0" y="0.0" width="97" height="89"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="99" height="74"/>
+                <rect key="frame" x="0.0" y="0.0" width="97" height="89"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NuZ-Am-HCI">
-                        <rect key="frame" x="0.0" y="0.0" width="99" height="74"/>
+                        <rect key="frame" x="0.0" y="0.0" width="97" height="89"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Red-kc-MzT">
-                                <rect key="frame" x="16" y="0.0" width="67" height="52"/>
+                                <rect key="frame" x="16" y="0.0" width="65" height="64"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wqu-hX-xJ4">
-                                <rect key="frame" x="0.0" y="57" width="99" height="17"/>
+                                <rect key="frame" x="25" y="69" width="52" height="10"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kAN-DC-Jv5">
+                                <rect key="frame" x="15" y="69" width="10" height="10"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="10" id="K8v-Os-DXD"/>
+                                    <constraint firstAttribute="height" constant="10" id="Wm7-fv-OyG"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <constraints>
                             <constraint firstItem="wqu-hX-xJ4" firstAttribute="top" secondItem="Red-kc-MzT" secondAttribute="bottom" constant="5" id="9Wl-5e-yi3"/>
-                            <constraint firstAttribute="bottom" secondItem="wqu-hX-xJ4" secondAttribute="bottom" id="HNi-T8-6yA"/>
+                            <constraint firstItem="kAN-DC-Jv5" firstAttribute="leading" secondItem="NuZ-Am-HCI" secondAttribute="leading" constant="15" id="AKH-o3-CxV"/>
+                            <constraint firstItem="wqu-hX-xJ4" firstAttribute="leading" secondItem="kAN-DC-Jv5" secondAttribute="trailing" id="Bw0-Yl-Dtc"/>
+                            <constraint firstItem="kAN-DC-Jv5" firstAttribute="top" secondItem="Red-kc-MzT" secondAttribute="bottom" constant="5" id="GX1-ch-i0F"/>
+                            <constraint firstAttribute="bottom" secondItem="wqu-hX-xJ4" secondAttribute="bottom" constant="10" id="HNi-T8-6yA"/>
+                            <constraint firstAttribute="bottom" secondItem="kAN-DC-Jv5" secondAttribute="bottom" constant="10" id="W8J-h1-3Qt"/>
                             <constraint firstAttribute="trailing" secondItem="Red-kc-MzT" secondAttribute="trailing" constant="16" id="dgB-3n-7bc"/>
                             <constraint firstItem="Red-kc-MzT" firstAttribute="leading" secondItem="NuZ-Am-HCI" secondAttribute="leading" constant="16" id="hWN-2w-lBx"/>
-                            <constraint firstItem="wqu-hX-xJ4" firstAttribute="leading" secondItem="NuZ-Am-HCI" secondAttribute="leading" id="s4g-by-sdq"/>
-                            <constraint firstAttribute="trailing" secondItem="wqu-hX-xJ4" secondAttribute="trailing" id="sti-Y7-haD"/>
+                            <constraint firstAttribute="trailing" secondItem="wqu-hX-xJ4" secondAttribute="trailing" constant="20" id="sti-Y7-haD"/>
                             <constraint firstItem="Red-kc-MzT" firstAttribute="top" secondItem="NuZ-Am-HCI" secondAttribute="top" id="ywh-Py-txg"/>
                         </constraints>
                     </view>
@@ -48,12 +60,18 @@
                 <constraint firstAttribute="bottom" secondItem="NuZ-Am-HCI" secondAttribute="bottom" id="uGO-iY-Uc5"/>
                 <constraint firstAttribute="trailing" secondItem="NuZ-Am-HCI" secondAttribute="trailing" id="vue-ys-cJx"/>
             </constraints>
-            <size key="customSize" width="99" height="74"/>
+            <size key="customSize" width="97" height="89"/>
             <connections>
                 <outlet property="folderImageView" destination="Red-kc-MzT" id="G0J-kS-big"/>
                 <outlet property="folderNameLbl" destination="wqu-hX-xJ4" id="xM9-87-7nw"/>
+                <outlet property="tagColorView" destination="kAN-DC-Jv5" id="FDG-Q9-yGR"/>
             </connections>
-            <point key="canvasLocation" x="176.33587786259542" y="28.87323943661972"/>
+            <point key="canvasLocation" x="174.80916030534351" y="34.154929577464792"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
