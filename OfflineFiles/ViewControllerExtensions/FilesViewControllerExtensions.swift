@@ -32,7 +32,7 @@ extension FilesViewController: UICollectionViewDelegate, UICollectionViewDataSou
                if let thumbnail = thumbnailImage {
                    cell.configure(with: thumbnail, isDocument: true, fileName: fileName)
                } else {
-               
+                   print(fileUrl)
                }
            }
            

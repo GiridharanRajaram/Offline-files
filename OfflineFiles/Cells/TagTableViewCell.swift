@@ -19,9 +19,6 @@ class TagTableViewCell: UITableViewCell {
     
     @IBOutlet weak var backroundView: UIView!
     
-  
-    
-   
     override func awakeFromNib() {
         super.awakeFromNib()
         colorCircleView.layer.cornerRadius = 10
@@ -29,9 +26,7 @@ class TagTableViewCell: UITableViewCell {
         backroundView.layer.cornerRadius = 10
 
     }
-   
- 
-       
+  
        func configure(with color: UIColor, name: String) {
            colorCircleView.backgroundColor = color
            colorNameLbl.text = name

@@ -67,6 +67,9 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
                 let folderNameToDelete = self.filteredFoldersName[index]
                 DatabaseHelper.instance.deleteFolder(name: folderNameToDelete)
                 self.filteredFoldersName.remove(at: index)
+                if self.filteredFoldersName.isEmpty {
+                    showEmptyFolderLabel()
+                }
                 self.folderCollectionView.reloadData()
                
             }
@@ -117,6 +120,25 @@ extension ViewController : UISearchBarDelegate {
 
 extension ViewController {
     
+    func showEmptyFolderLabel() {
+        let label = UILabel()
+        label.text = "Click + icon to add folders"
+        label.textAlignment = .center
+        label.textColor = .gray
+        label.font = UIFont.systemFont(ofSize: 22)
+        label.sizeToFit()
+        label.center = view.center
+        label.tag = 100
+        view.addSubview(label)
+    }
+
+    func hideEmptyFolderLabel() {
+        if let label = view.viewWithTag(100) as? UILabel {
+            label.removeFromSuperview()
+        }
+    }
+    
+    
     func toggleFavourite(at index: Int) {
         if let folders = DatabaseHelper.instance.fetchFolders(), index < folders.count {
             let folder = folders[index]
@@ -166,11 +188,16 @@ extension ViewController {
         
         let saveAction = UIAlertAction(title: "Save", style: .default) { [weak self] (_) in
             guard let newName = alertController.textFields?.first?.text else { return }
-            folder.setValue(newName, forKey: "name")
-            DatabaseHelper.instance.saveContext()
-            if let indexInFilteredArray = self?.filteredFoldersName.firstIndex(of: oldName ?? "") {
-                self?.filteredFoldersName[indexInFilteredArray] = newName
-                self?.folderCollectionView.reloadData()
+            
+            if self?.isFolderNameExists(folderName: newName) ?? false {
+                self?.showAlert(message: "Folder with this name already exists.")
+            } else {
+                folder.setValue(newName, forKey: "name")
+                DatabaseHelper.instance.saveContext()
+                if let indexInFilteredArray = self?.filteredFoldersName.firstIndex(of: oldName ?? "") {
+                    self?.filteredFoldersName[indexInFilteredArray] = newName
+                    self?.folderCollectionView.reloadData()
+                }
             }
         }
         
@@ -220,8 +247,13 @@ extension ViewController {
         
         let createAction = UIAlertAction(title: "Ok", style: .default) { (_) in
             if let folderName = alertController.textFields?.first?.text {
-                DatabaseHelper.instance.saveFolder(name: folderName)
-                self.fetchAndUpdateCollectionView()
+                if !self.isFolderNameExists(folderName: folderName) {
+                    DatabaseHelper.instance.saveFolder(name: folderName)
+                    self.hideEmptyFolderLabel()
+                    self.fetchAndUpdateCollectionView()
+                } else {
+                    self.showAlert(message: "Folder with this name already exists.")
+                }
             }
         }
         
@@ -230,8 +262,29 @@ extension ViewController {
         alertController.addAction(createAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
+
     }
-    
+
+    func isFolderNameExists(folderName: String) -> Bool {
+        // Check if the folder name exists in the database
+        if let folders = DatabaseHelper.instance.fetchFolders() {
+            return folders.contains { (folder) -> Bool in
+                if let name = folder.value(forKey: "name") as? String {
+                    return name == folderName
+                }
+                return false
+            }
+        }
+        return false
+    }
+
+    func showAlert(message: String) {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+    }
+
     func fetchAndUpdateCollectionView() {
         if let savedFolders = DatabaseHelper.instance.fetchFolders() {
             foldersName = savedFolders.compactMap { $0.value(forKey: "name") as? String }

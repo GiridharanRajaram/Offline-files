@@ -16,6 +16,7 @@ class ViewController: UIViewController{
     
     @IBOutlet weak var filterBtn: UIButton!
     
+    
     var foldersName = [String]()
     var filteredFoldersName = [String]()
     var selectedFolder: NSManagedObject?
@@ -33,12 +34,25 @@ class ViewController: UIViewController{
         // Register XIB cell
         let nib = UINib(nibName: "FolderCollectionViewCell", bundle: nil)
         folderCollectionView.register(nib, forCellWithReuseIdentifier: "CollectionViewCell")
-//                DatabaseHelper.instance.deleteAllData(forEntity: "Folders")
+        
+        //DeleteAll for checking purpose
+//    DatabaseHelper.instance.deleteAllData(forEntity: "Folders")
+        
+        // Check if there are folders in CoreData
+          if let folders = DatabaseHelper.instance.fetchFolders(), !folders.isEmpty {
+              // If there are folders, hide the label
+              hideEmptyFolderLabel()
+          } else {
+              // If there are no folders, show the label
+              showEmptyFolderLabel()
+          }
+        
+        
         fetchAndUpdateCollectionView()
         
     }
     
-    
+ 
     
     @IBAction func addFolderBtnAction(_ sender: Any) {
         
