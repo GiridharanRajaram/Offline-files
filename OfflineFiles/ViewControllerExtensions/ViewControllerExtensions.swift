@@ -68,7 +68,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
                 DatabaseHelper.instance.deleteFolder(name: folderNameToDelete)
                 self.filteredFoldersName.remove(at: index)
                 if self.filteredFoldersName.isEmpty {
-                    showEmptyFolderLabel()
+                    utilityFunctions.showEmptyFolderLabel(inView: self.view, title: "Click + icon to add folders")
                 }
                 self.folderCollectionView.reloadData()
                
@@ -120,24 +120,6 @@ extension ViewController : UISearchBarDelegate {
 
 extension ViewController {
     
-    func showEmptyFolderLabel() {
-        let label = UILabel()
-        label.text = "Click + icon to add folders"
-        label.textAlignment = .center
-        label.textColor = .gray
-        label.font = UIFont.systemFont(ofSize: 22)
-        label.sizeToFit()
-        label.center = view.center
-        label.tag = 100
-        view.addSubview(label)
-    }
-
-    func hideEmptyFolderLabel() {
-        if let label = view.viewWithTag(100) as? UILabel {
-            label.removeFromSuperview()
-        }
-    }
-    
     
     func toggleFavourite(at index: Int) {
         if let folders = DatabaseHelper.instance.fetchFolders(), index < folders.count {
@@ -150,7 +132,9 @@ extension ViewController {
             }
             
             DatabaseHelper.instance.saveContext()
-            fetchAndUpdateCollectionView()
+            if isFilteredByFavorites {
+                    fetchAndUpdateCollectionView()
+                }
         } else {
             print("Error: Invalid index or unable to fetch folders.")
         }
@@ -249,7 +233,7 @@ extension ViewController {
             if let folderName = alertController.textFields?.first?.text {
                 if !self.isFolderNameExists(folderName: folderName) {
                     DatabaseHelper.instance.saveFolder(name: folderName)
-                    self.hideEmptyFolderLabel()
+                    self.utilityFunctions.hideEmptyFolderLabel(fromView: self.view)
                     self.fetchAndUpdateCollectionView()
                 } else {
                     self.showAlert(message: "Folder with this name already exists.")

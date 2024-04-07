@@ -18,6 +18,8 @@ class FilesViewController: UIViewController {
     
     var selectedFilesData:[Data] = []
     
+    let utilityFunctions = UtilityFunctions()
+    
     @IBOutlet weak var filesCollectionView: UICollectionView!
     
     override func viewDidLoad() {
@@ -28,9 +30,20 @@ class FilesViewController: UIViewController {
         filesCollectionView.delegate = self
         filesCollectionView.dataSource = self
         
+        
+        // Check if there are folders in CoreData
+        if let folders = DatabaseHelper.instance.fetchFiles(forFolder: selectedFolder ?? NSManagedObject()), !folders.isEmpty {
+              // If there are folders, hide the label
+            utilityFunctions.hideEmptyFolderLabel(fromView: self.view)
+          } else {
+              // If there are no folders, show the label
+              utilityFunctions.showEmptyFolderLabel(inView: self.view, title: "Click Folder icon to add folders")
+          }
         loadFiles()
     }
     
+    
+  
     
     @IBAction func addfilesBtnAction(_ sender: Any) {
         

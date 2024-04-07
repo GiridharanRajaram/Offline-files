@@ -126,6 +126,7 @@ extension FilesViewController {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
+        utilityFunctions.hideEmptyFolderLabel(fromView: self.view)
         present(imagePicker, animated: true, completion: nil)
     }
     
@@ -135,6 +136,7 @@ extension FilesViewController {
         let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.item], asCopy: true)
         documentPicker.delegate = self
         documentPicker.allowsMultipleSelection = false
+        utilityFunctions.hideEmptyFolderLabel(fromView: self.view)
         present(documentPicker, animated: true, completion: nil)
     }
     
