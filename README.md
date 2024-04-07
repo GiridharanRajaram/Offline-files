@@ -54,7 +54,7 @@ Offline Files is an iOS application that allows users to efficiently organize th
 Clone the repository to your local machine.
 
 ```bash
-git clone https://github.com/GiridharanRajaram/Offline-files/tree/main
+git clone https://github.com/GiridharanRajaram/Offline-files
 ```
     
 ## Tech Stack
